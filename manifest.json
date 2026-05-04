@@ -1,7 +1,7 @@
 {
   "name": "FORGE Workout",
   "short_name": "FORGE",
-  "start_url": "/",
+  "start_url": "/FORGE/",
   "display": "standalone",
   "background_color": "#0d0d0f",
   "theme_color": "#e8ff47",
