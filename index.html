@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FORGE — Your Workout App</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FORGE">
 <style>
   :root {
     --bg: #0d0d0f;
@@ -159,7 +155,6 @@
   }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* EXERCISE CARD */
   .section-label {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 11px;
@@ -171,15 +166,12 @@
   }
   .exercise-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
 
+  /* EXERCISE CARD — PER SET */
   .exercise-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
+    padding: 14px 16px;
     transition: all 0.15s;
     position: relative;
     overflow: hidden;
@@ -195,39 +187,25 @@
   .exercise-card.cat-bag::before { background: var(--accent2); }
   .exercise-card.cat-band::before { background: var(--purple); }
   .exercise-card.cat-rope::before { background: var(--orange); }
-  .exercise-card.cat-superset::before { background: var(--accent); }
+  .exercise-card.all-done { opacity: 0.5; }
 
-  .exercise-card:hover { border-color: rgba(255,255,255,0.18); background: var(--surface2); }
-  .exercise-card.done { opacity: 0.45; }
-  .exercise-card.done .exercise-name { text-decoration: line-through; }
-
-  .check-box {
-    width: 24px; height: 24px;
-    border-radius: 6px;
-    border: 1.5px solid var(--border);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
+  .exercise-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
   }
-  .exercise-card.done .check-box {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-  .check-box svg { display: none; }
-  .exercise-card.done .check-box svg { display: block; }
-
-  .exercise-info { flex: 1; min-width: 0; }
   .exercise-name {
     font-weight: 500;
     font-size: 15px;
-    margin-bottom: 3px;
+    flex: 1;
   }
   .exercise-details {
     font-size: 13px;
     color: var(--muted);
+    margin-top: 2px;
   }
   .exercise-details strong { color: var(--text); font-weight: 500; }
-
   .eq-badge {
     font-size: 10px;
     font-weight: 500;
@@ -241,6 +219,120 @@
   .eq-bag { background: rgba(255,92,56,0.12); color: var(--accent2); }
   .eq-band { background: rgba(181,123,255,0.12); color: var(--purple); }
   .eq-rope { background: rgba(255,140,56,0.12); color: var(--orange); }
+
+  /* WEIGHT INPUT ROW */
+  .weight-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .weight-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .weight-input {
+    width: 80px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+  }
+  .weight-input:focus { border-color: var(--accent); }
+  .weight-unit {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .weight-last {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 4px;
+    font-style: italic;
+  }
+
+  /* SET ROWS */
+  .sets-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .set-row-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .set-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-direction: column;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+  .set-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .set-btn.done {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0d0f;
+  }
+  .set-btn .set-num { font-size: 14px; line-height: 1; }
+  .set-btn .set-check { font-size: 12px; line-height: 1; display: none; }
+  .set-btn.done .set-num { display: none; }
+  .set-btn.done .set-check { display: block; }
+
+  .reps-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+  }
+  .reps-input {
+    width: 64px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    height: 36px;
+  }
+  .reps-input:focus { border-color: var(--accent); }
+  .reps-input::placeholder { color: var(--muted); font-weight: 400; }
+  .reps-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .reps-prev {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-left: 4px;
+  }
 
   /* SUPERSET */
   .superset-wrapper {
@@ -936,88 +1028,179 @@ function renderToday() {
   }
 
   let html = '';
-  let totalExercises = 0;
   plan.blocks.forEach((block, bi) => {
     if (block.type === 'warmup') {
       html += `<div class="section-label">Warm-Up</div><div class="exercise-list">`;
       block.exercises.forEach((ex, ei) => {
-        totalExercises++;
-        html += renderExCard(ex, `${bi}-${ei}`, bi);
+        html += renderExCard(ex, `${bi}-${ei}`);
       });
       html += '</div>';
     } else if (block.type === 'finisher') {
       html += `<div class="section-label">Finisher</div><div class="exercise-list">`;
       block.exercises.forEach((ex, ei) => {
-        totalExercises++;
-        html += renderExCard(ex, `${bi}-${ei}`, bi);
+        html += renderExCard(ex, `${bi}-${ei}`);
       });
       html += '</div>';
     } else if (block.type === 'normal') {
       html += `<div class="section-label">Main Work</div><div class="exercise-list">`;
       block.exercises.forEach((ex, ei) => {
-        totalExercises++;
-        html += renderExCard(ex, `${bi}-${ei}`, bi);
+        html += renderExCard(ex, `${bi}-${ei}`);
       });
       html += '</div>';
     } else if (block.type === 'superset') {
       html += `<div class="superset-wrapper"><div class="superset-label">${block.label}</div><div class="superset-inner">`;
       block.exercises.forEach((ex, ei) => {
-        totalExercises++;
-        html += renderExCard(ex, `${bi}-${ei}`, bi);
+        html += renderExCard(ex, `${bi}-${ei}`);
       });
       html += '</div></div>';
     }
   });
 
   container.innerHTML = html;
-  document.getElementById('completedCount').textContent = `0 of ${totalExercises} exercises done`;
   document.getElementById('timeGoal').textContent = `Goal: ${plan.duration}`;
   completedOnPage.clear();
-  updateProgress(totalExercises);
+  updateProgress();
 }
 
-function renderExCard(ex, id, bi) {
+function renderExCard(ex, id) {
   const key = `d${state.currentDay}-${id}`;
-  const done = completedOnPage.has(key);
-  return `<div class="exercise-card cat-${ex.cat} ${done ? 'done' : ''}" id="card-${key}" onclick="toggleEx('${key}', this)">
-    <div class="check-box">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M2 6l3 3 5-5" stroke="#0d0d0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+  const numSets = parseInt(ex.sets) || 0;
+  const isTimeBased = isNaN(parseInt(ex.sets)); // e.g. "3 min", "4 × 30s"
+  const savedData = state.setLog?.[key] || {};
+  const completedSets = savedData.completedSets || [];
+  const savedWeight = savedData.weight || '';
+  const lastWeight = state.lastWeights?.[ex.name] || '';
+  const allDone = !isTimeBased && numSets > 0 && completedSets.length >= numSets;
+
+  const showWeight = ex.eq === 'dumbbell' || ex.eq === 'band';
+
+  let weightRow = '';
+  if (showWeight) {
+    weightRow = `<div class="weight-row">
+      <span class="weight-label">Weight</span>
+      <input class="weight-input" type="number" placeholder="0" value="${savedWeight}" 
+        onchange="saveWeight('${key}', '${ex.name}', this.value)"
+        onclick="event.stopPropagation()" min="0" step="2.5">
+      <span class="weight-unit">lbs</span>
+      ${lastWeight && lastWeight !== savedWeight ? `<span class="weight-last">Last: ${lastWeight} lbs</span>` : ''}
+    </div>`;
+  }
+
+  let setsHtml = '';
+  if (!isTimeBased && numSets > 0) {
+    const rows = Array.from({ length: numSets }, (_, i) => {
+      const done = completedSets.includes(i);
+      const savedReps = savedData.reps?.[i] || '';
+      const lastReps = state.lastReps?.[ex.name]?.[i] || '';
+      return `<div class="set-row-item">
+        <button class="set-btn ${done ? 'done' : ''}" onclick="toggleSet('${key}', ${i}, ${numSets}, '${ex.name}', event)" id="set-${key}-${i}">
+          <span class="set-num">S${i + 1}</span>
+          <span class="set-check">✓</span>
+        </button>
+        <div class="reps-input-wrap">
+          <input class="reps-input" type="number" placeholder="reps" min="0"
+            value="${savedReps}"
+            onchange="saveReps('${key}', '${ex.name}', ${i}, this.value)"
+            onclick="event.stopPropagation()">
+          <span class="reps-label">reps</span>
+          ${lastReps && lastReps !== savedReps ? `<span class="reps-prev">Last: ${lastReps}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    setsHtml = `<div class="sets-row">${rows}</div>`;
+  }
+
+  return `<div class="exercise-card cat-${ex.cat} ${allDone ? 'all-done' : ''}" id="card-${key}">
+    <div class="exercise-card-top">
+      <div class="exercise-info" style="flex:1;min-width:0">
+        <div class="exercise-name">${ex.name}</div>
+        <div class="exercise-details">${ex.sets ? `<strong>${ex.sets}</strong>` : ''}${ex.reps ? ` · ${ex.reps}` : ''}</div>
+      </div>
+      <span class="eq-badge eq-${ex.eq}">${ex.eq}</span>
     </div>
-    <div class="exercise-info">
-      <div class="exercise-name">${ex.name}</div>
-      <div class="exercise-details">${ex.sets ? `<strong>${ex.sets}</strong>` : ''}${ex.reps ? ` · ${ex.reps}` : ''}</div>
-    </div>
-    <span class="eq-badge eq-${ex.eq}">${ex.eq}</span>
+    ${weightRow}
+    ${setsHtml}
   </div>`;
 }
 
-function toggleEx(key, el) {
-  if (completedOnPage.has(key)) {
-    completedOnPage.delete(key);
-    el.classList.remove('done');
+function saveWeight(key, exName, val) {
+  if (!state.setLog) state.setLog = {};
+  if (!state.setLog[key]) state.setLog[key] = { completedSets: [] };
+  state.setLog[key].weight = val;
+  if (!state.lastWeights) state.lastWeights = {};
+  state.lastWeights[exName] = val;
+  saveState();
+}
+
+function saveReps(key, exName, setIdx, val) {
+  if (!state.setLog) state.setLog = {};
+  if (!state.setLog[key]) state.setLog[key] = { completedSets: [] };
+  if (!state.setLog[key].reps) state.setLog[key].reps = {};
+  state.setLog[key].reps[setIdx] = val;
+  // Save to lastReps for next session
+  if (!state.lastReps) state.lastReps = {};
+  if (!state.lastReps[exName]) state.lastReps[exName] = {};
+  state.lastReps[exName][setIdx] = val;
+  saveState();
+}
+
+function toggleSet(key, setIdx, totalSets, exName, event) {
+  event.stopPropagation();
+  if (!state.setLog) state.setLog = {};
+  if (!state.setLog[key]) state.setLog[key] = { completedSets: [] };
+
+  const completed = state.setLog[key].completedSets;
+  const idx = completed.indexOf(setIdx);
+  const btn = document.getElementById(`set-${key}-${setIdx}`);
+  const card = document.getElementById(`card-${key}`);
+
+  if (idx >= 0) {
+    completed.splice(idx, 1);
+    btn.classList.remove('done');
   } else {
-    completedOnPage.add(key);
-    el.classList.add('done');
-    startRestTimer(60);
+    completed.push(setIdx);
+    btn.classList.add('done');
+    // Auto start rest timer after each set
+    const restTime = totalSets > 0 ? 60 : 45;
+    startRestTimer(restTime);
   }
+
+  const allDone = completed.length >= totalSets;
+  card.classList.toggle('all-done', allDone);
+
+  saveState();
   updateProgress();
 }
 
 function updateProgress(total) {
-  const cards = document.querySelectorAll('.exercise-card');
-  const t = total !== undefined ? total : cards.length;
-  const done = completedOnPage.size;
-  const pct = t > 0 ? Math.round((done / t) * 100) : 0;
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('completedCount').textContent = `${done} of ${t} exercises done`;
+  const plan = getPlan(state.currentDay);
+  let totalSets = 0, doneSets = 0;
 
-  if (done >= t && t > 0) {
+  plan.blocks.forEach((block, bi) => {
+    block.exercises.forEach((ex, ei) => {
+      const key = `d${state.currentDay}-${bi}-${ei}`;
+      const numSets = parseInt(ex.sets) || 0;
+      const isTimeBased = isNaN(parseInt(ex.sets));
+      if (!isTimeBased && numSets > 0) {
+        totalSets += numSets;
+        const completed = state.setLog?.[key]?.completedSets?.length || 0;
+        doneSets += Math.min(completed, numSets);
+      } else if (isTimeBased) {
+        totalSets += 1;
+        // time-based: count as done if in completedOnPage
+        if (completedOnPage.has(key)) doneSets += 1;
+      }
+    });
+  });
+
+  const pct = totalSets > 0 ? Math.round((doneSets / totalSets) * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('completedCount').textContent = `${doneSets} of ${totalSets} sets done`;
+
+  if (doneSets >= totalSets && totalSets > 0) {
     document.getElementById('completionBanner').classList.add('visible');
     state.completedWorkouts++;
     saveState();
-    document.getElementById('statWorkouts').textContent = state.completedWorkouts;
   }
 }
 
@@ -1207,8 +1390,5 @@ function logWeight() {
 renderToday();
 renderSchedule();
 </script>
-   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
-  }
 </body>
 </html>
