@@ -735,6 +735,7 @@
     <div class="completion-banner" id="completionBanner">
       <h2>WORKOUT COMPLETE</h2>
       <p>Great work. Rest up and come back stronger tomorrow.</p>
+      <button onclick="advanceDay()" style="margin-top:16px;background:var(--accent);color:#0d0d0f;border:none;border-radius:8px;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Next Day →</button>
     </div>
     <div class="today-header">
       <div>
@@ -1198,9 +1199,12 @@ function updateProgress(total) {
   document.getElementById('completedCount').textContent = `${doneSets} of ${totalSets} sets done`;
 
   if (doneSets >= totalSets && totalSets > 0) {
-    document.getElementById('completionBanner').classList.add('visible');
-    state.completedWorkouts++;
-    saveState();
+    const banner = document.getElementById('completionBanner');
+    if (!banner.classList.contains('visible')) {
+      state.completedWorkouts++;
+      saveState();
+    }
+    banner.classList.add('visible');
   }
 }
 
