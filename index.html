@@ -740,6 +740,9 @@ header { padding: 14px 16px; }
       <p>Great work. Rest up and come back stronger tomorrow.</p>
       <button onclick="advanceDay()" style="margin-top:16px;background:var(--accent);color:#0d0d0f;border:none;border-radius:8px;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Next Day →</button>
     </div>
+    <div style="text-align:right;margin-bottom:8px">
+      <button onclick="forceComplete()" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Mark Workout Done</button>
+    </div>
     <div class="today-header">
       <div>
         <div class="today-title" id="todayTitle">DAY <span>1</span></div>
@@ -1285,6 +1288,16 @@ function advanceDay() {
   document.getElementById('completionBanner').classList.remove('visible');
   resetTimer();
   renderToday();
+}
+
+function forceComplete() {
+  const banner = document.getElementById('completionBanner');
+  if (!banner.classList.contains('visible')) {
+    state.completedWorkouts++;
+    saveState();
+  }
+  banner.classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Schedule View
