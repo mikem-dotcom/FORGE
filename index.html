@@ -1081,12 +1081,11 @@ function renderToday() {
 function renderExCard(ex, id) {
   const key = `d${state.currentDay}-${id}`;
   const numSets = parseInt(ex.sets) || 0;
-  const isTimeBased = isNaN(parseInt(ex.sets)); // e.g. "3 min", "4 × 30s"
   const savedData = state.setLog?.[key] || {};
   const completedSets = savedData.completedSets || [];
   const savedWeight = savedData.weight || '';
   const lastWeight = state.lastWeights?.[ex.name] || '';
-  const allDone = !isTimeBased && numSets > 0 && completedSets.length >= numSets;
+  const allDone = numSets > 0 ? completedSets.length >= numSets : completedSets.length > 0;
 
   const showWeight = ex.eq === 'dumbbell' || ex.eq === 'band';
 
@@ -1103,7 +1102,7 @@ function renderExCard(ex, id) {
   }
 
   let setsHtml = '';
-  if (!isTimeBased && numSets > 0) {
+  if (!isNaN(parseInt(ex.sets)) && numSets > 0) {
     const rows = Array.from({ length: numSets }, (_, i) => {
       const done = completedSets.includes(i);
       const savedReps = savedData.reps?.[i] || '';
@@ -1124,6 +1123,16 @@ function renderExCard(ex, id) {
       </div>`;
     }).join('');
     setsHtml = `<div class="sets-row">${rows}</div>`;
+  } else {
+    // Time-based exercise — single done button
+    const done = completedSets.length > 0;
+    setsHtml = `<div class="sets-row"><div class="set-row-item">
+      <button class="set-btn ${done ? 'done' : ''}" onclick="toggleSet('${key}', 0, 1, '${ex.name}', event)" id="set-${key}-0">
+        <span class="set-num">✓</span>
+        <span class="set-check">✓</span>
+      </button>
+      <span style="font-size:13px;color:var(--muted);margin-left:4px">Mark complete</span>
+    </div></div>`;
   }
 
   return `<div class="exercise-card cat-${ex.cat} ${allDone ? 'all-done' : ''}" id="card-${key}">
